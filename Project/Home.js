@@ -1,24 +1,35 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native'
 
-export default function Home() {
+export default function Home({route, navigation}) {
+    const { username } = route.params;
+
+    const film = () => {
+        navigation.navigate("DaftarFilm")
+    }
+    const tvShow = () => {
+        navigation.navigate("DaftarTvShow")
+    }
+    const about = () => {
+        navigation.navigate("About")
+    }
     return (
         <ImageBackground style={styles.bg} source = {require('./assets/Vector3.png')}>
             <View style = {styles.container}>
                 <Text style = {styles.judul}>Movie Mania</Text>
                 <Text style = {styles.subJudul}>
-                    Selamat Datang {"\n"}
+                    Selamat Datang {username}{"\n"}
                     di Aplikasi Movie Mania
                 </Text>
 
                 <View style = {styles.containerButton}>
-                    <TouchableOpacity style={styles.buttonMovie}>
+                    <TouchableOpacity style={styles.buttonMovie} onPress = {film}>
                         <Text style={styles.textButton}>Daftar Film</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonTvShow}>
+                    <TouchableOpacity style={styles.buttonTvShow} onPress = {tvShow}>
                         <Text style={styles.textButton}>Daftar TV Show</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonAbout}>
+                    <TouchableOpacity style={styles.buttonAbout} onPress = {about}>
                         <Text style={styles.textButton}>About Me</Text>
                     </TouchableOpacity>
                 </View>
@@ -55,7 +66,7 @@ const styles = StyleSheet.create({
     },
     containerButton: {
         flexDirection: 'column',
-        marginTop: 83,
+        marginTop: 40,
     },
     buttonMovie: {
         marginTop: 26,

@@ -1,38 +1,57 @@
-import React from 'react'
+import React, { useState} from 'react'
 import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, ImageBackgroundComponent } from 'react-native'
 
-export default function Login() {
+
+export default function Login({navigation}) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [wrongPassword, setWrongPassword] = useState(" ");
+  
+    const signin = () => {
+        if(password == '12345678'){
+          navigation.navigate("Home", {
+            username: username
+          })
+        }else{
+          setWrongPassword("Password anda salah")
+        }
+    
+      };
+    
     return (
-        <ImageBackground source = {require('./assets/Vector2.png')}>
+        <ImageBackground style={styles.bg} source = {require('./assets/Vector2.png')}>
             <View style = {styles.container}>
                 <Text style = {styles.judul}>Movie Mania</Text>
                 <Text style = {styles.subJudul}>Welcome</Text>
                 <Text style = {styles.subJudul2}>Back</Text>
                 <View style = {styles.containerInput}>
-                    <TextInput style={styles.input} placeholder="Username"/>
-                    <TextInput style={styles.input} placeholder="Password" secureTextEntry = {true}/>
+                    <TextInput style={styles.input} placeholder="Username" value = {username} onChangeText = { (value) => setUsername(value)}/>
+                    <TextInput style={styles.input} placeholder="Password" secureTextEntry = {true} value = {password} onChangeText = { (value) => setPassword(value)}/>
                 </View>
                 <View style = {styles.containerButton}>
-                    <TouchableOpacity style={styles.appButtonContainerMasuk}>
+                    <TouchableOpacity style={styles.appButtonContainerMasuk} onPress = {signin}>
                         <Text style={styles.iconButton}>Sign in</Text>
                     </TouchableOpacity>
                 </View>
+                <Text>{wrongPassword}</Text>
             </View>
         </ImageBackground>
     )
 }
 
 const styles = StyleSheet.create({
+    bg: {
+        flex: 1,
+        flexDirection: 'column'
+    },
     container: {
+        flexDirection: 'column',
         paddingTop: 39,
         paddingBottom: 39,
         paddingLeft: 28,
         paddingRight: 28,
         flex: 1
     },
-    image: {
-        flex: 1,
-      },
     judul: {
         fontFamily: 'Roboto',
         fontSize: 48,
@@ -44,31 +63,32 @@ const styles = StyleSheet.create({
         marginTop: 60,
         fontFamily: 'Roboto',
         fontSize: 36,
-        color: '#ffffff',
+        color: '#003366',
         fontWeight: 'bold',
     },
     subJudul2: {
         fontFamily: 'Roboto',
         fontSize: 36,
-        color: '#ffffff',
+        color: '#003366',
         fontWeight: 'bold',
     },
     containerInput: {
-        marginTop: 93,
+        justifyContent: 'space-evenly'
     },
     input: {
-        weight: 75,
+        width: 275,
         height: 35, 
         borderColor: 'gray', 
         borderWidth: 1,
         fontFamily: 'Roboto',
-        marginTop: 24
+        marginTop: 24,
+        padding: 8,
     },
     containerButton: {
-        marginTop: 83,
+        marginTop: 140,
     },
     appButtonContainerMasuk: {
-        weight: 40,
+        width: 275,
         height: 40,
         backgroundColor: "#003366",
         borderRadius: 30,

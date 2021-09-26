@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column-reverse'
     },
     container: {
+        marginTop: 15,
         padding: 19,
         flex:1,
         flexDirection: 'column'
@@ -90,11 +91,11 @@ const styles = StyleSheet.create({
         borderRadius: 400/2,
     },
     txtProfil: {
+        fontFamily: 'Roboto',
         marginLeft: 16,
         alignSelf: 'center',
         color: '#003366',
-        fontSize: 13,
-        fontStyle: 'Roboto',
+        fontSize: 16,
         fontWeight: '500'
     },
     textSubtittle: {
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         width: 314,
         height: 140,
         padding: 14,
-        marginTop: 29,
+        marginTop: 8,
     },
     containerFramework: {
         backgroundColor: "#F3F3F3",
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         marginTop: 13,
     },
     txtTitle: {
-        fontStyle: 'Roboto',
+        fontFamily: 'Roboto',
         fontWeight: '500',
         fontSize: 14,
         color: '#003366'
@@ -161,7 +162,6 @@ const styles = StyleSheet.create({
         marginLeft: 11,
         color: '#003366',
         fontSize: 14,
-        fontStyle: 'Roboto',
         fontWeight: '400',
     },
     containerText: {
@@ -171,6 +171,5 @@ const styles = StyleSheet.create({
     containerStar: {
         justifyContent: 'space-evenly',
     }
-
 
 })

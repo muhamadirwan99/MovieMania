@@ -1,32 +1,83 @@
-import React from 'react'
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import axios from 'axios'
+import React, { useState, useEffect} from 'react'
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-export default function DaftarFilm() {
+
+export default function DaftarFilm({navigation}) {
+    const [name, setName] = useState("")
+    const [items, setItems] = useState([])
+    const [selectedMovie, setSelectedMovie] = useState({})
+    const [apiKey, setApiKey] = useState("1e6a3a26e31ff7d7b36096f14da05883")
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+
+    const getData = () => {
+        axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`)
+        .then(res => {
+            const data = (res.data.results)
+            console.log('res: ', data)
+            setItems(data)
+            setName(data.title)
+        })
+    }
+
+    const onSelectItem = () =>{
+        navigation.navigate("Detail", {
+            name: name,
+        })
+    }
+
+    const Item = ({overview, poster, name, rating, info}) => {
+        return(
+            <TouchableOpacity onPress = {() => {
+                navigation.navigate("Detail", {
+                    name: name,
+                    poster: poster,
+                    rating: rating,
+                    info: overview
+                })
+            }}>
+                <View style = {styles.containerIsi}>
+                    <View style = {styles.containerKiri}> 
+                        <Image style = {styles.imgPoster} source = {{uri: `https://image.tmdb.org/t/p/w500/${poster}`}}></Image>
+                    </View>
+                    <View style = {styles.containerKanan}>
+                        <View style={styles.verticleLine}></View>
+                        <View style = {styles.containerList}>
+                            <View style = {styles.containerIcon}>
+                                <Image style = {styles.icon} source = {require('./assets/movie.png')}/>
+                                <Text style = {styles.textIsi}>{name}</Text>
+                            </View>
+                            <View style = {styles.containerIcon}>
+                                <Image style = {styles.icon} source = {require('./assets/star.png')}/>
+                                <Text style = {styles.textIsi}>{rating}</Text>
+                            </View>
+                            <View style = {styles.containerIcon}>
+                                <Image style = {styles.icon} source = {require('./assets/medal.png')}/>
+                                <Text style = {styles.textIsi}>{info}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+
     return (
         <ImageBackground style={styles.bg} source = {require('./assets/Vector4.png')}>
             <View style = {styles.container}>
                 <Text style = {styles.judul}>Daftar{'\n'}Film</Text>
             </View>
-            <View style = {styles.containerIsi}>
-                <View style = {styles.containerKiri}> 
-                    <Image style = {styles.imgPoster} source = {require('./assets/poster.jpg')}></Image>
-                </View>
-                <View style = {styles.containerKanan}>
-                    <View style={styles.verticleLine}></View>
-                    <View style = {styles.containerIcon}>
-                        <Image style = {styles.icon} source = {require('./assets/movie.png')}/>
-                        <Image style = {styles.icon} source = {require('./assets/star.png')}/>
-                        <Image style = {styles.icon} source = {require('./assets/info.png')}/>
-                    </View> 
-                    <View style = {styles.containerText}>
-                        <Text style = {styles.textIsi}>Nama</Text>
-                        <Text style = {styles.textIsi}></Text>
-                        <Text style = {styles.textIsi}>Rating</Text>
-                        <Text style = {styles.textIsi}></Text>
-                        <Text style = {styles.textIsi}>Info</Text>
-                    </View> 
-                </View>
-            </View>
+            <ScrollView>
+                {items.map(movie => {
+                    return <Item overview = {movie.overview} poster = {movie.poster_path} name = {movie.title} rating = {movie.vote_average} info = {movie.popularity}/>
+                })}
+            </ScrollView>
         </ImageBackground>
     )
 }
@@ -50,7 +101,6 @@ const styles = StyleSheet.create({
     },
     containerIsi: {
         height: 128,
-        weight: 314,
         borderRadius: 8,
         marginRight: 36,
         marginLeft: 36,
@@ -76,23 +126,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#909090',
     },
     containerIcon: {
-        flexDirection: 'column',
+        flexDirection: 'row',
         marginLeft: 10,
-        justifyContent: 'space-evenly'
+    },
+    containerList: {
+        flexDirection: 'column',
+        justifyContent: 'space-around'
     },
     icon: {
         width: 24,
         height: 24,
+        alignSelf: 'center'
     },
     containerText: {
         flexDirection: 'column',
-        marginLeft: 7,
-        justifyContent: 'space-evenly',
-        flex: 1,
+        marginLeft: 10,
+        justifyContent: 'space-evenly'
     },
     textIsi: {
+        width: 135,
+        marginLeft: 10,
         color: '#003366',
         fontSize: 12,
         fontFamily: 'Roboto',
+        alignSelf: 'center'
     }
 })

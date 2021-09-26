@@ -1,19 +1,20 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native'
 
-export default function Detail() {
+export default function Detail({route, navigation}) {
+    const { name, poster, rating, info } = route.params;
     return (
         <ImageBackground style={styles.bg} source = {require('./assets/Vector5.png')}>
             <View style = {styles.container}>
                 <View style = {styles.containerHeader}>
-                    <Image style = {styles.imgPoster} source = {require('./assets/poster.jpg')} />
-                    <Text style = {styles.textNama}>Nama Film</Text>
-                    <Text style = {styles.textRating}>Rating</Text>
+                    <Image style = {styles.imgPoster} source = {{uri: `https://image.tmdb.org/t/p/w500/${poster}`}} />
+                    <Text style = {styles.textNama}>{name}</Text>
+                    <Text style = {styles.textRating}>{rating}</Text>
                 </View>
                 <View style = {styles.containerIsi}>
                     <Text style = {styles.textSubJudul}>Overview</Text>
                     <View style = {styles.horizontalLine}></View>
-                    <Text style = {styles.textOverview}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce euismod lobortis nisi et elementum. Curabitur ante nibh, pulvinar eu arcu vitae, eleifend sollicitudin nibh. </Text>
+                    <Text style = {styles.textOverview}>{info}</Text>
                 </View>
             </View>
         </ImageBackground>
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column-reverse'
     },
     container: {
+        marginTop: 24,
         padding: 28,
         flex: 1,
         flexDirection: 'column'
@@ -34,14 +36,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     imgPoster: {
-        width: 86,
-        height: 139,
+        width: 112,
+        height: 181,
         resizeMode: 'stretch',
     },
     textNama: {
         marginTop: 10,
         fontFamily: 'Roboto',
-        fontWeight: '450',
+        fontWeight: '400',
         fontSize: 14,
         color: '#003366'
     },
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     containerIsi: {
         backgroundColor: '#F3F3F3',
         borderRadius: 7,
-        weight: 314,
+        width: 314,
         paddingTop: 4,
         paddingRight: 24,
         paddingLeft: 24,
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     },
     textOverview: {
         fontFamily: 'Roboto',
-        fontSize: 11,
+        fontSize: 12,
         textAlign: 'left',
         marginTop: 8,
         width: 271,
